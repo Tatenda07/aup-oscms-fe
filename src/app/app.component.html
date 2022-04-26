@@ -1,2 +1,98 @@
-<h1>Welcome to Home Page</h1>
-<router-outlet></router-outlet>
+
+<nav class="sticky">
+  <button id='hideshow-menu-button' (click)="toogleMenu()" *ngIf="studentService.isLoggedIn() || userService.isLoggedIn()"><i class="uil uil-bars"></i> Menu</button>
+  <h3 class="nav-bar-text">AUP Online Student Concern Management System</h3>
+</nav>
+
+<div class="w-100 position-absolute top-0" *ngIf="modalVersion">
+  <div class="alert alert-secondary m-2">
+    <button type="button" class="btn-close position-absolute top-0 end-0 m-1" aria-label="Close" (click)="closeVersion()"></button>
+    A new version of this app is available. <a href="" (click)="updateVersion()">Update now</a>
+  </div>
+</div>
+
+<div class="w-100 position-absolute bottom-0" *ngIf="modalPwaPlatform === 'ANDROID' || modalPwaPlatform === 'IOS'">
+  <div class="alert alert-secondary m-2">
+    <button type="button" class="btn-close position-absolute top-0 end-0 m-1" aria-label="Close" (click)="closePwa()"></button>
+    <!-- Android -->
+    <div *ngIf="modalPwaPlatform === 'ANDROID'" (click)="addToHomeScreen()">
+      Add this WEB app to home screen
+    </div>
+    <!-- iOS with Safari -->
+    <div *ngIf="modalPwaPlatform === 'IOS'">
+      To install this WEB app on your device, tap the "Menu" button
+      <img src="https://res.cloudinary.com/rodrigokamada/image/upload/v1641089482/Blog/angular-pwa/safari_action_button_38x50.png" class="ios-menu m-0" />
+      and then "Add to home screen" button
+      <i class="bi bi-plus-square"></i>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</div>
+
+<div class="main-content-wrapper">
+
+
+  <main class="wrapper">
+   <div id='side-menu' *ngIf="!displayMenu">
+     <!-- Student menu items -->
+      <ul *ngIf="studentService.roleStudent() === 'Student'">
+        <li (click)="toogleMenu()" routerLink="/home"><i class="menu-icon uil uil-estate"></i> Home</li>
+        <li (click)="toogleMenu()" routerLink="/submit-concern"><i class="menu-icon uil uil-comment-alt-plus"></i> Submit Concern</li>
+        <li (click)="toogleMenu()" routerLink="/my-concerns"><i class="menu-icon uil uil-comment-alt-lines"></i> My Concerns</li>
+        <li (click)="toogleMenu()" routerLink="/faq"><i class="menu-icon uil uil-comment-alt-question"></i> FAQ</li>
+        <!--<li (click)="toogleMenu()" routerLink="/profile"><i class="menu-icon uil uil-user"></i> Profile</li>-->
+        <li (click)="toogleMenu()" routerLink="/help"><i class="menu-icon uil uil-question-circle"></i> Help</li>
+        <li (click)="toogleMenu()" routerLink="/about"><i class="menu-icon uil uil-comment-info-alt"></i> About</li>
+        <li (click)="onLogout()" routerLink="/login"><i class="menu-icon uil uil-signout"></i> Sign Out</li>
+      </ul>
+
+      <!-- SSO Personnel menu items -->
+      <ul *ngIf="userService.userRole() === 'SSO Personnel'">
+        <li (click)="toogleMenu()" routerLink="/resolutions"><i class="menu-icon uil uil-comment-alt-verify"></i> Resolve Concerns</li>
+        <li (click)="toogleMenu()" routerLink="/analytics"><i class="menu-icon uil uil-analytics"></i> Analytics </li>
+        <li (click)="toogleMenu()" routerLink="/faq"><i class="menu-icon uil uil-comment-alt-question"></i> FAQ</li>
+        <!-- <li (click)="toogleMenu()" routerLink="/profile"><i class="menu-icon uil uil-user"></i> Profile</li> -->
+        <li (click)="toogleMenu()" routerLink="/help"><i class="menu-icon uil uil-question-circle"></i> Help</li>
+        <li (click)="toogleMenu()" routerLink="/about"><i class="menu-icon uil uil-comment-info-alt"></i> About Us</li>
+        <li (click)="onLogout()" routerLink="/admin-login"><i class="menu-icon uil uil-signout"></i> Sign Out</li>
+      </ul>
+
+      <!-- CSC Personnel menu items -->
+      <ul *ngIf="userService.userRole() === 'CSC Personnel'">
+        <li (click)="toogleMenu()" routerLink="/manage-concerns"><i class="menu-icon uil uil-comments-alt"></i> Manage Concerns</li>
+        <li (click)="toogleMenu()" routerLink="/analytics"><i class="menu-icon uil uil-analytics"></i> Analytics </li>
+        <li (click)="toogleMenu()" routerLink="/faq"><i class="menu-icon uil uil-comment-alt-question"></i> FAQ</li>
+        <!-- <li (click)="toogleMenu()" routerLink="/profile"><i class="menu-icon uil uil-user"></i> Profile</li> -->
+        <li (click)="toogleMenu()" routerLink="/help"><i class="menu-icon uil uil-question-circle"></i> Help</li>
+        <li (click)="toogleMenu()" routerLink="/about"><i class="menu-icon uil uil-comment-info-alt"></i> About Us</li>
+        <li (click)="onLogout()" routerLink="/admin-login"><i class="menu-icon uil uil-signout"></i> Sign Out</li>
+      </ul>
+
+      <!-- Admin user menu items -->
+      <ul *ngIf="userService.userRole() === 'Admin'">
+        <li (click)="toogleMenu()" routerLink="/manage-users"><i class="menu-icon uil uil-user"></i> Manage Users </li>
+        <li (click)="toogleMenu()" routerLink="/manage-students"><i class="menu-icon uil uil-book-reader"></i> Manage Students </li>
+        <li (click)="toogleMenu()" routerLink="/manage-concerns"><i class="menu-icon uil uil-comments-alt"></i> Manage Concerns </li>
+        <li (click)="toogleMenu()" routerLink="/resolutions"><i class="menu-icon uil uil-comment-alt-verify"></i> Resolutions </li>
+        <li (click)="toogleMenu()" routerLink="/analytics"><i class="menu-icon uil uil-analytics"></i> Analytics </li>
+        <li (click)="toogleMenu()" routerLink="/faq"><i class="menu-icon uil uil-comment-alt-question"></i> FAQ</li>
+        <!-- <li (click)="toogleMenu()" routerLink="/profile"><i class="menu-icon uil uil-user"></i> Profile</li> -->
+        <li (click)="toogleMenu()" routerLink="/help"><i class="menu-icon uil uil-question-circle"></i> Help</li>
+        <li (click)="toogleMenu()" routerLink="/about"><i class="menu-icon uil uil-comment-info-alt"></i> About Us</li>
+        <li (click)="onLogout()" routerLink="/admin-login"><i class="menu-icon uil uil-signout"></i> Sign Out</li>
+      </ul>
+   </div>
+
+   <div class="main-content">
+    <router-outlet></router-outlet>
+   </div>
+
+  </main>
+</div>
+
+<footer>
+  AUP Online Student Concern Management System &copy;
+</footer>
+
