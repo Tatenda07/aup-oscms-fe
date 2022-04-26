@@ -1,1 +1,34 @@
-<p>analytics works!</p>
+
+<div class="header">
+  <h4> Analytics </h4>
+</div>
+
+<div class="concerns-analytics">
+  <div class="total inqueue">
+    <p>In Queue Concerns</p>
+    <h2>{{ inQueueConcerns }}</h2>
+  </div>
+
+  <div class="total moderated">
+    <p>Moderated Concerns</p>
+    <h2>{{ moderatedConcerns }}</h2>
+  </div>
+
+  <div class="total pending">
+    <p>Pending SSO Response</p>
+    <h2>{{ pendingSSOResponse }}</h2>
+  </div>
+
+  <div class="total resolved">
+    <p>Resolved Concerns</p>
+    <h2>{{ resolvedConcerns }}</h2>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h4>Analytics Chart</h4>
+  <div class="chart-div">
+    <p-chart width="500" height="500" *ngIf="chartData" type="pie" [data]="chartData" [options]="options" (chartClick)="chartClicked($event)" (chartHover)="chartHovered($event)"></p-chart>
+  </div>
+</div>
+

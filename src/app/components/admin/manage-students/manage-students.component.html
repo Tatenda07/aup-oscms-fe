@@ -1,1 +1,148 @@
-<p>manage-students works!</p>
+<main>
+  <div class="header">
+    <h4> Manage Students </h4>
+    <button class="btn add-new-student" (click)="toggleDisplayDivIf()">Add New Student</button>
+  </div>
+
+  <div class="user-wrapper">
+    <div class="form-div" *ngIf='!showHideStudentsForm'>
+      <div class="col s7 custom">
+        <form #studentForm="ngForm" (ngSubmit)="onSubmitStudent(studentForm)" autocomplete="off">
+            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="studentService.selectedStudent._id" readonly>
+            <p class="title" *ngIf="studentService.selectedStudent._id === ''">Add New User</p>
+            <p class="title" *ngIf="studentService.selectedStudent._id !== ''">Edit User</p>
+
+            <div class="row">
+              <div class="col s12">
+                <label class="display-label">Student ID</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input *ngIf="studentService.selectedStudent._id !== ''" id="student_id" type="number" name="student_id" #student_id="ngModel" [(ngModel)]="studentService.selectedStudent.student_id" readonly>
+                    <input *ngIf="studentService.selectedStudent._id === ''" id="student_id" type="number" name="student_id" #student_id="ngModel" [(ngModel)]="studentService.selectedStudent.student_id" required>
+                  </div>
+                </div>
+
+                <label class="display-label">First Name</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="first_name" type="text" name="first_name" #first_name="ngModel" [(ngModel)]="studentService.selectedStudent.first_name" required>
+                  </div>
+                </div>
+
+                <label class="display-label">Middle Initial</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="middle_initial" type="text" name="middle_initial" #middle_initial="ngModel" [(ngModel)]="studentService.selectedStudent.middle_initial">
+                  </div>
+                </div>
+
+                <label class="display-label">Last Name</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="last_name" type="text" name="last_name" #last_name="ngModel" [(ngModel)]="studentService.selectedStudent.last_name" required>
+                  </div>
+                </div>
+
+                <label class="display-label">College</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select name="college" id="college" [(ngModel)]="studentService.selectedStudent.college" required>
+                      <option value="" disabled selected hidden>Select College</option>
+                      <option value="Business">College of Bisiness</option>
+                      <option value="Science and Technology">College of Science and Technology</option>
+                      <option value="Nursing">College of Nursing</option>
+                      <option value="Arts and Humanities">College of Arts and Humanities</option>
+                      <option value="Dentistry">College of Dentisty</option>
+                      <option value="Education">College of Education</option>
+                      <option value="Theology">College of Theology</option>
+                      <option value="Medicine">College of Medicine</option>
+                      <option value="Health">College of Health</option>
+                    </select>
+                  </div>
+                </div>
+
+                <label class="display-label">Phone Number</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="phone_number" type="text" name="phone_number" #phone_number="ngModel" [(ngModel)]="studentService.selectedStudent.phone_number" required>
+                  </div>
+                </div>
+
+                <label class="display-label">email</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="email" type="text" name="email" #email="ngModel" [(ngModel)]="studentService.selectedStudent.email" required>
+                  </div>
+                </div>
+
+                <label class="display-label" *ngIf="studentService.selectedStudent._id === ''">password</label>
+                <div class="row" *ngIf="studentService.selectedStudent._id === ''">
+                  <div class="input-field col s12">
+                    <input id="password" type="text" name="password" #password="ngModel" [(ngModel)]="studentService.selectedStudent.password" required>
+                  </div>
+                </div>
+
+                <div class="buttons">
+                  <div class="single-button cancel">
+                    <button class="btn" type="button" (click)="resetStudentsForm()">Cancel</button>
+                  </div>
+
+                  <div class="single-button submit">
+                    <button class="btn" type="submit" [disabled]="!studentForm.valid">Submit</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="table-div">
+      <h3 class="empty-list-text" *ngIf="studentService.allStudents?.length === 0">
+        There are no users here! Contact the Admin to create users.
+      </h3>
+
+      <table class="responsive-table highlight" *ngIf="studentService.allStudents?.length !== 0">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>College</th>
+            <th>Account Status</th>
+            <th>Date Added</th>
+            <th>Last Updated</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of studentService.allStudents">
+            <td>{{ student.student_id }}</td>
+            <td>{{ student.first_name }} {{ student.middle_initial }} {{ student.last_name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.phone_number }}</td>
+            <td>{{ student.college }}</td>
+            <td *ngIf="student.account_status === 0">Deactivated</td>
+            <td *ngIf="student.account_status === 1">Active</td>
+            <td *ngIf="student.account_status === 2">Suspended</td>
+            <td>{{ student.createdAt | date:'medium' }}</td>
+            <td>{{ student.updatedAt | date:'medium' }}</td>
+            <td>
+              <!-- edit button -->
+              <a class="action-btn edit" title="Edit Student">
+                <i class="material-icons" (click)="onEditStudent(student)">edit</i>
+              </a>
+              <!-- delete button -->
+              <a class="action-btn delete" title="Delete Student">
+                <i class="material-icons" (click)="onDeleteStudent(student._id)">delete</i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+

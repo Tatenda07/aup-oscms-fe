@@ -1,1 +1,138 @@
-<p>manage-users works!</p>
+
+<main>
+  <div class="header">
+    <h4> Manage Users </h4>
+    <button class="btn add-new-user" (click)="toggleDisplayDivIf()">Add New User</button>
+  </div>
+
+  <div class="user-wrapper">
+    <div class="form-div" *ngIf='!showHideUsersForm'>
+      <div class="col s7 custom">
+        <form #userForm="ngForm" (ngSubmit)="onSubmitUser(userForm)" autocomplete="off">
+            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="userService.selectedUser._id">
+            <p class="title" *ngIf="userService.selectedUser._id === ''">Add New User</p>
+            <p class="title" *ngIf="userService.selectedUser._id !== ''">Edit User</p>
+
+            <div class="row">
+              <div class="col s12">
+                <label class="display-label">First Name</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="first_name" type="text" name="first_name" #first_name="ngModel" [(ngModel)]="userService.selectedUser.first_name" required>
+                  </div>
+                </div>
+
+                <label class="display-label">Middle Initial</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="middle_initial" type="text" name="middle_initial" #middle_initial="ngModel" [(ngModel)]="userService.selectedUser.middle_initial">
+                  </div>
+                </div>
+
+                <label class="display-label">Last Name</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="last_name" type="text" name="last_name" #last_name="ngModel" [(ngModel)]="userService.selectedUser.last_name" required>
+                  </div>
+                </div>
+
+                <label class="display-label">Username</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="username" type="text" name="username" #username="ngModel" [(ngModel)]="userService.selectedUser.username" required>
+                  </div>
+                </div>
+
+                <label class="display-label">email</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="email" type="text" name="email" #email="ngModel" [(ngModel)]="userService.selectedUser.email" required>
+                  </div>
+                </div>
+
+                <label class="display-label" *ngIf="userService.selectedUser._id === ''">password</label>
+                <div class="row" *ngIf="userService.selectedUser._id === ''">
+                  <div class="input-field col s12">
+                    <input id="password" type="text" name="password" #password="ngModel" [(ngModel)]="userService.selectedUser.password" required>
+                  </div>
+                </div>
+
+                <label class="display-label">Phone Number</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="phone_number" type="text" name="phone_number" #phone_number="ngModel" [(ngModel)]="userService.selectedUser.phone_number" required>
+                  </div>
+                </div>
+
+                <label class="display-label">Role</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select name="role" id="role" [(ngModel)]="userService.selectedUser.role" required>
+                      <option value="" disabled selected hidden>Assign user role</option>
+                      <option value="CSC Personnel">CSC Personnel</option>
+                      <option value="SSO Personnel">SSO Personnel</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="buttons">
+                  <div class="single-button cancel">
+                    <button class="btn" type="button" (click)="resetUsersForm()">Cancel</button>
+                  </div>
+
+                  <div class="single-button submit">
+                    <button class="btn" type="submit" [disabled]="!userForm.valid">Submit</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="table-div">
+      <h3 class="empty-list-text" *ngIf="userService.usersList?.length === 0">
+        There are no users here! Contact the Admin to create users.
+      </h3>
+
+      <table class="responsive-table highlight" *ngIf="userService.usersList?.length !== 0">
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Role</th>
+            <th>Date Added</th>
+            <th>Last Updated</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.first_name }} {{ user.middle_initial }} {{ user.last_name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone_number }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.createdAt | date:'medium' }}</td>
+            <td>{{ user.updatedAt | date:'medium' }}</td>
+            <td>
+              <!-- edit button -->
+              <a class="action-btn edit" title="Edit User">
+                <i class="material-icons" (click)="onEditUser(user)">edit</i>
+              </a>
+              <!-- delete button -->
+              <a class="action-btn delete" title="Delete User">
+                <i class="material-icons" (click)="onDeleteUser(user._id)">delete</i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+

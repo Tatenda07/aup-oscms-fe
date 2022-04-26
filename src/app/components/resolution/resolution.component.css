@@ -1,0 +1,8 @@
+@import '../compl-status/compl-status.component.css';
+
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}

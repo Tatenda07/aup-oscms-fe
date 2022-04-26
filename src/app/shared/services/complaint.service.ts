@@ -7,8 +7,8 @@ import { Complaint } from '../models/complaint.model';
   providedIn: 'root'
 })
 export class ComplaintService {
-  readonly baseURL = 'http://localhost:5000/complaint';
-  //readonly baseURL = 'https://aup-oscms.herokuapp.com/complaint';
+  //readonly baseURL = 'http://localhost:5000/complaint';
+  readonly baseURL = 'https://aup-oscms.herokuapp.com/complaint';
   selectedComplaint!: Complaint;
 
   allComplaints!: Complaint[];

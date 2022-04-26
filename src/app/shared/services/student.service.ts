@@ -8,8 +8,8 @@ import { Student } from '../models/student.model'
   providedIn: 'root'
 })
 export class StudentService {
-  readonly baseURL = 'http://localhost:5000/student';
-  //readonly baseURL = 'https://aup-oscms.herokuapp.com/student';
+  //readonly baseURL = 'http://localhost:5000/student';
+  readonly baseURL = 'https://aup-oscms.herokuapp.com/student';
   selectedStudent!: Student;
 
   allStudents!: Student[];

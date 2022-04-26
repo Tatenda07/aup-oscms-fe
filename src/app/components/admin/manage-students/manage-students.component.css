@@ -1,0 +1,18 @@
+@import '../manage-complaints/manage-complaints.component.css';
+
+.main-wrapper {
+  min-height: 100vh;
+}
+
+.add-new-student {
+  color: azure;
+  border: #12f8ad 1px solid;
+  margin-bottom: 5px;
+  transition: .5s;
+}
+
+.add-new-student:hover {
+  color: #2a2b38;
+  background: #12f8ad;
+  transition: .5s;
+}

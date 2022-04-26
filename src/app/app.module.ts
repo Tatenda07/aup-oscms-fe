@@ -31,7 +31,8 @@ import { AuthInterceptor, UserAuthInterceptor } from './auth/auth.interceptor';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
-import { ChartsModule } from 'ng2-charts';
+//import { ChartsModule } from 'ng2-charts';
+import { ChartModule } from 'primeng/chart'
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { ChartsModule } from 'ng2-charts';
       registrationStrategy: 'registerWhenStable:30000'
     }),
     //MDBBootstrapModule.forRoot(),
-    ChartsModule
+    //ChartsModule,
+    ChartModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+.header {
+  text-align: center;
+  padding: 5px;
+}
+
+.concerns-analytics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.total {
+ margin-top: 10px;
+ padding: 5px;
+ text-align: center;
+ border-radius: 10px;
+ max-width: 160px;
+}
+
+.total h2 {
+  font-size: 60px;
+  font-weight: 100;
+}
+
+.inqueue {
+  background: #949FB1;
+}
+
+.moderated {
+  background: #4D5360;
+}
+
+.pending {
+  background: #FDB45C;
+}
+
+.resolved {
+  background: #46BFBD;
+}
+
+.chart-container {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: inline;
+}
+
+.chart-container h4 {
+  margin-top: 20px;
+}
+
+.chart-div {
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10px;
+  display: block;
+  max-width: 800px;
+  max-height: 600px;
+  background: #12f8ad;
+  border-radius: 10px;
+}

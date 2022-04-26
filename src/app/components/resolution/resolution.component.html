@@ -1,1 +1,202 @@
-<p>resolution works!</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<main>
+  <div class="header">
+    <h4> Resolve Concerns </h4>
+  </div>
+
+<div class="complaint-wrapper">
+  <div class="form-div" *ngIf='viewResolutionForm'>
+    <div class="complaint-display" *ngIf="resolutionService.selectedResolution._id === ''">
+      <h5>Complaint:</h5>
+      <h6>{{complaintService.selectedComplaint.complaint_header}}</h6>
+      <p class="body-text">{{complaintService.selectedComplaint.complaint_body}}</p>
+    </div>
+
+    <div class="col s7 custom">
+      <form #manageResolutionsForm="ngForm" (ngSubmit)="onSubmitResolution(manageResolutionsForm)" autocomplete="off">
+          <p class="title" *ngIf="resolutionService.selectedResolution._id === ''">Add Resolution to the Concern</p>
+          <p class="title" *ngIf="resolutionService.selectedResolution._id !== ''">Update Resolution</p>
+          <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="resolutionService.selectedResolution._id">
+          <input id="respondent_username" type="hidden" name="respondent_username" #respondent_username="ngModel" [(ngModel)]="resolutionService.selectedResolution.respondent_username">
+          <input id="complaint_id" type="hidden" name="complaint_id" #complaint_id="ngModel" [(ngModel)]="resolutionService.selectedResolution.complaint_id">
+          <input id="updated_by" type="hidden" name="updated_by" #updated_by="ngModel" [(ngModel)]="resolutionService.selectedResolution.updated_by">
+          <input id="user_id" type="hidden" name="user_id" #user_id="ngModel" [(ngModel)]="resolutionService.selectedResolution.user_id">
+          <div class="row">
+            <div class="col s12">
+              <label class="display-label">Resolution Header</label>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="resolution_header" type="text" name="resolution_header" #resolution_header="ngModel" [(ngModel)]="resolutionService.selectedResolution.resolution_header" required>
+                </div>
+              </div>
+
+              <label class="display-label">Resolution</label>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="resolution_body" type="text" name="resolution_body" #resolution_body="ngModel" [(ngModel)]="resolutionService.selectedResolution.resolution_body" required>
+                </div>
+              </div>
+
+              <div class="buttons">
+                <div class="single-button cancel">
+                  <button class="btn" type="button" (click)="resetResolutionForm()">Cancel</button>
+                </div>
+
+                <div class="single-button submit">
+                  <button class="btn" type="submit" [disabled]="!manageResolutionsForm.valid">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <div class="view-complaint-and-resolution" *ngIf="viewComplaintResolution">
+    <div class="complaint">
+      <h5>Concern:</h5>
+      <h6>{{complaintService.selectedComplaint.complaint_header}}</h6>
+      <p class="body-text">
+        {{complaintService.selectedComplaint.complaint_body}} <br/>
+        <i class="body-datestamp">Concern posted by {{complaintService.selectedComplaint.student_name}} on {{complaintService.selectedComplaint.createdAt | date:'medium'}}</i> <br/>
+        <i class="body-datestamp" *ngIf="complaintService.selectedComplaint.moderated_by !== undefined">Concern moderated by {{complaintService.selectedComplaint.moderated_by}} on {{complaintService.selectedComplaint.updatedAt | date:'medium'}}</i>
+      </p>
+    </div>
+
+    <div class="resolution">
+      <h5>Resolution:</h5>
+      <h6>{{specificResolution.resolution_header}}</h6>
+      <p class="body-text">
+        {{specificResolution.resolution_body}} <br/>
+        <i class="body-datestamp">Resolution posted by {{specificResolution.respondent_username}} on {{specificResolution.createdAt | date:'medium'}}</i> <br/>
+        <i class="body-datestamp" *ngIf="specificResolution.updated_by !== undefined">Resolution updated by {{specificResolution.updated_by}} on {{specificResolution.updatedAt | date:'medium'}}</i>
+      </p>
+    </div>
+    <div class="action-buttons">
+      <button class="close-btn" (click)="viewComplaintResolution = false">Close</button>
+      <!-- edit button -->
+      <a class="action-btn edit" title="Edit Resolution">
+        <i class="material-icons" (click)="onEditResolution(specificResolution)">edit</i>
+      </a>
+      <!-- delete button -->
+      <a class="action-btn delete" title="Delete Resolution">
+        <i class="material-icons" (click)="onDeleteResolution(specificResolution._id)">delete</i>
+      </a>
+    </div>
+  </div>
+
+  <div class="view-complaint-and-resolution" *ngIf="viewResolutionComplaint">
+    <div class="complaint">
+      <h5>Concern:</h5>
+      <h6>{{specificComplaint.complaint_header}}</h6>
+      <p class="body-text">
+        {{specificComplaint.complaint_body}} <br/>
+        <i class="body-datestamp">Concern posted by {{specificComplaint.student_name}} on {{specificComplaint.createdAt | date:'medium'}}</i> <br/>
+        <i class="body-datestamp" *ngIf="specificComplaint.moderated_by !== undefined">Concern moderated by {{specificComplaint.moderated_by}} on {{specificComplaint.updatedAt | date:'medium'}}</i>
+      </p>
+    </div>
+
+    <div class="resolution">
+      <h5>Resolution:</h5>
+      <h6>{{resolutionService.selectedResolution.resolution_header}}</h6>
+      <p class="body-text">
+        {{resolutionService.selectedResolution.resolution_body}} <br/>
+        <i class="body-datestamp">Resolution posted by {{resolutionService.selectedResolution.respondent_username}} on {{resolutionService.selectedResolution.createdAt | date:'medium'}}</i> <br/>
+        <i class="body-datestamp" *ngIf="resolutionService.selectedResolution.updated_by !== undefined">Resolution updated by {{resolutionService.selectedResolution.updated_by}} on {{resolutionService.selectedResolution.updatedAt | date:'medium'}}</i>
+      </p>
+    </div>
+    <div class="action-buttons">
+      <button class="close-btn" (click)="viewResolutionComplaint = false">Close</button>
+      <!-- edit button -->
+      <a class="action-btn edit" title="Edit Resolution">
+        <i class="material-icons" (click)="onEditResolution(resolutionService.selectedResolution)">edit</i>
+      </a>
+      <!-- delete button -->
+      <a class="action-btn delete" title="Delete Resolution">
+        <i class="material-icons" (click)="onDeleteResolution(resolutionService.selectedResolution._id)">delete</i>
+      </a>
+    </div>
+  </div>
+
+  <div class="table-div">
+    <div class="header">
+      <h5> Concerns List </h5>
+    </div>
+    <!-- complaits table -->
+    <table class="responsive-table highlight" *ngIf="complaintService.allComplaints?.length !== 0">
+      <thead>
+        <tr>
+          <th>Concern Header</th>
+          <th>Concern</th>
+          <th>Status</th>
+          <th>Student ID</th>
+          <th>Student Name</th>
+          <th>Posted On</th>
+          <th>Last Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let complaint of complaintService.allComplaints">
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.complaint_header }}</td>
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.complaint_body }}</td>
+          <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status === 3">Pending SSO response</td>
+          <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status === 4">Resolved</td>
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.student_id }}</td>
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.student_name }}</td>
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.createdAt | date:'medium' }}</td>
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.updatedAt | date:'medium' }}</td>
+          <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status !== 4">
+              <button class="view-complaint-btn" (click)="viewComplaint(complaint);viewResolutionForm = true">Add Resolution</button>
+          </td>
+          <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status === 4">
+            <button class="view-resolution-btn" (click)="viewComplaint(complaint);viewSpecificResolution(complaint.resolution_id)">View Resolution</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="header">
+      <h5> Resolutions Lists </h5>
+    </div>
+
+    <!-- resolutions table -->
+    <table class="responsive-table highlight" *ngIf="resolutionService.allResolutions?.length !== 0">
+      <thead>
+        <tr>
+          <th>Concern</th>
+          <th>Respondent</th>
+          <th>Resolution Header</th>
+          <th>Resolution</th>
+          <th>Posted On</th>
+          <th>Last Updated</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let resolution of resolutionService.allResolutions">
+          <td><button class="view-resolution-btn" (click)="viewResolution(resolution);viewSpecificComplaint(resolution.complaint_id)">View Concern</button></td>
+          <td>{{ resolution.respondent_username }}</td>
+          <td>{{ resolution.resolution_header }}</td>
+          <td>{{ resolution.resolution_body }}</td>
+          <td>{{ resolution.createdAt | date:'medium' }}</td>
+          <td>{{ resolution.updatedAt | date:'medium' }}</td>
+          <td>
+            <!-- edit button -->
+            <a class="action-btn edit" title="Edit Resolution">
+              <i class="material-icons" (click)="onEditResolution(resolution)">edit</i>
+            </a>
+            <!-- delete button -->
+            <a class="action-btn delete" title="Delete Resolution">
+              <i class="material-icons" (click)="onDeleteResolution(resolution._id)">delete</i>
+            </a>
+          </td>
+          <td *ngIf="resolution.updated_by !== undefined">Last updated by {{ resolution.updated_by }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

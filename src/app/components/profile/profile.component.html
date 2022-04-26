@@ -1,1 +1,28 @@
-<p>profile works!</p>
+<main>
+  <div class="header">
+      <h4>Student Profile</h4>
+  </div>
+
+  <div class="profile-wrapper">
+      <div class="form-div"></div>
+  </div>
+</main>
+
+<div class="accordion">
+  <div class="container">
+      <div class="profile">
+          <br>
+          <div class="row user-menu-container square">
+              <div class="col-md-6 no-pad" style="width: 100px; float:left; height:100px">
+                  <h1> Welcome {{studentProfile?.first_name}} {{studentProfile?.last_name}} </h1>
+                  <hr>
+                  <h4> Student ID: {{studentProfile?.student_id}} </h4>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4 no-pad" style="width: 100px; float:right; height:100px; margin:10px">
+          <h3> Submitted Complaints</h3>
+          <hr>
+      </div>
+  </div>
+</div>

@@ -1,1 +1,157 @@
-<p>manage-complaints works!</p>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+<main>
+  <div class="header">
+    <h4> Manage Concerns </h4>
+  </div>
+
+  <div class="complaint-wrapper">
+    <div class="form-div" *ngIf='viewComplaintsForm'>
+      <div class="col s7 custom">
+        <form #manageComplaintsForm="ngForm" (ngSubmit)="onSubmitComplaint(manageComplaintsForm)" autocomplete="off">
+            <p class="title">Moderate Concern</p>
+            <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="complaintService.selectedComplaint._id">
+            <input type="hidden" name="moderated_by" #moderated_by="ngModel" [(ngModel)]="complaintService.selectedComplaint.moderated_by">
+            <div class="row">
+              <div class="col s12">
+                <label class="display-label">Student Name</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="student_name" type="text" name="student_name" #student_name="ngModel" [(ngModel)]="complaintService.selectedComplaint.student_name" readonly>
+                  </div>
+                </div>
+
+                <label class="display-label">Student ID</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="student_id" type="text" name="student_id" #student_id="ngModel" [(ngModel)]="complaintService.selectedComplaint.student_id" readonly>
+                  </div>
+                </div>
+
+                <label class="display-label">Concern Header</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="complaint_header" type="text" name="complaint_header" #complaint_header="ngModel" [(ngModel)]="complaintService.selectedComplaint.complaint_header" required>
+                  </div>
+                </div>
+
+                <label class="display-label">Concern</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="complaint_body" type="text" name="complaint_body" #complaint_body="ngModel" [(ngModel)]="complaintService.selectedComplaint.complaint_body" required>
+                  </div>
+                </div>
+
+                <div class="buttons">
+                  <div class="single-button cancel">
+                    <button class="btn" type="button" (click)="resetComplaintForm()">Cancel</button>
+                  </div>
+
+                  <div class="single-button submit">
+                    <button class="btn" type="submit" [disabled]="!manageComplaintsForm.valid">Submit</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+
+    <div class="view-complaint-and-resolution" *ngIf="viewComplaintResolution">
+      <div class="complaint">
+        <h5>Concern:</h5>
+        <h6>{{complaintService.selectedComplaint.complaint_header}}</h6>
+        <p class="body-text">
+          {{complaintService.selectedComplaint.complaint_body}} <br/>
+          <i class="body-datestamp">Concern posted by {{complaintService.selectedComplaint.student_name}} on {{complaintService.selectedComplaint.createdAt | date:'medium'}}</i> <br/>
+          <i class="body-datestamp" *ngIf="complaintService.selectedComplaint.moderated_by !== undefined">Concern moderated by {{complaintService.selectedComplaint.moderated_by}} on {{complaintService.selectedComplaint.updatedAt | date:'medium'}}</i>
+        </p>
+      </div>
+
+      <div class="resolution" *ngIf="viewResolutionDiv">
+        <h5>Resolution:</h5>
+        <h6>{{specificResolution.resolution_header}}</h6>
+        <p class="body-text">
+          {{specificResolution.resolution_body}} <br/>
+          <i class="body-datestamp">Resolution posted by {{specificResolution.respondent_username}} on {{specificResolution.createdAt | date:'medium'}}</i> <br/>
+          <i class="body-datestamp" *ngIf="specificResolution.updated_by !== undefined">Resolution updated by {{specificResolution.updated_by}} on {{specificResolution.updatedAt | date:'medium'}}</i>
+        </p>
+      </div>
+
+      <div class="action-buttons">
+        <button class="close-btn" (click)="viewComplaintResolution = false">Close</button>
+        <!-- edit button -->
+        <a class="action-btn edit" title="Moderate Concern" *ngIf="complaintService.selectedComplaint.complaint_status < 3">
+          <i class="material-icons" (click)="onEditComplaint(complaintService.selectedComplaint);viewComplaintResolution = false">edit</i>
+        </a>
+        <!-- delete button -->
+        <a class="action-btn delete" title="Delete Concern" *ngIf="complaintService.selectedComplaint.complaint_status < 3">
+          <i class="material-icons" (click)="onDeleteComplaint(complaintService.selectedComplaint._id)">delete</i>
+        </a>
+        <button class="view-resolution-btn send-btn" (click)="sendToSSO(complaintService.selectedComplaint)" *ngIf="complaintService.selectedComplaint.complaint_status < 3">Send to SSO</button>
+        <button class="view-resolution-btn" (click)="addToFAQ(complaintService.selectedComplaint)" *ngIf="complaintService.selectedComplaint.complaint_status === 4 && complaintService.selectedComplaint.FAQ === 0">Add to FAQ</button>
+        <button class="view-resolution-btn" style="color: orange;" (click)="removeFromFAQ(complaintService.selectedComplaint)" *ngIf="complaintService.selectedComplaint.complaint_status === 4 && complaintService.selectedComplaint.FAQ === 1">Remove from FAQ</button>
+      </div>
+    </div>
+
+    <div class="table-div">
+      <h3 class="empty-list-text" *ngIf="complaintService.allComplaints?.length === 0">
+        There are no concerns from the students currently.
+      </h3>
+
+      <table class="responsive-table highlight" *ngIf="complaintService.allComplaints?.length !== 0">
+        <thead>
+          <tr>
+            <th>Concern Header</th>
+            <th>Concern</th>
+            <th>Status</th>
+            <th>Resolution</th>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Posted On</th>
+            <th>Last Updated</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let complaint of complaintService.allComplaints">
+            <td>{{ complaint.complaint_header }}</td>
+            <td>{{ complaint.complaint_body }}</td>
+            <td *ngIf="complaint.complaint_status === 0">In queue</td>
+            <td *ngIf="complaint.complaint_status === 1">Received by CSC personnel</td>
+            <td *ngIf="complaint.complaint_status === 2">Moderated by {{complaint.moderated_by}}</td>
+            <td *ngIf="complaint.complaint_status === 3">Pending SSO response</td>
+            <td *ngIf="complaint.complaint_status === 4">Resolved</td>
+            <td *ngIf="complaint.complaint_status !== 4">
+              <button class="view-resolution-btn" style="color: orange;" (click)="viewComplaint(complaint);viewResolutionDiv = false;viewComplaintResolution = true">View Concern</button>
+            </td>
+            <td *ngIf="complaint.complaint_status === 4">
+              <button class="view-resolution-btn" (click)="viewComplaint(complaint);viewResolution(complaint.resolution_id)">View Resolution</button>
+            </td>
+            <td>{{ complaint.student_id }}</td>
+            <td>{{ complaint.student_name }}</td>
+            <td>{{ complaint.createdAt | date:'medium' }}</td>
+            <td>{{ complaint.updatedAt | date:'medium' }}</td>
+            <td>
+              <button class="view-resolution-btn send-btn" *ngIf="complaint.complaint_status < 3" (click)="sendToSSO(complaint)">Send to SSO</button>
+              <button class="view-resolution-btn" *ngIf="complaint.complaint_status === 4 && complaint.FAQ === 0" (click)="addToFAQ(complaint)">Add to FAQ</button>
+              <button class="view-resolution-btn" style="color: orange;" *ngIf="complaint.complaint_status === 4 && complaint.FAQ === 1" (click)="removeFromFAQ(complaint)">Remove from FAQ</button>
+            </td>
+            <td *ngIf="complaint.complaint_status < 3">
+              <!-- edit button -->
+              <a class="action-btn edit" title="Moderate Concern">
+                <i class="material-icons" (click)="onEditComplaint(complaint);viewComplaintResolution = false">edit</i>
+              </a>
+              <!-- delete button -->
+              <a class="action-btn delete" title="Delete Concern">
+                <i class="material-icons" (click)="onDeleteComplaint(complaint._id)">delete</i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+

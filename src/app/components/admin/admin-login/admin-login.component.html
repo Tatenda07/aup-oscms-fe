@@ -1,1 +1,57 @@
-<p>admin-login works!</p>
+<body>
+  <div class="section">
+    <div class="container">
+      <div class="row full-height justify-content-center">
+        <div class="col-12 text-center align-self-center py-5">
+          <div class="section pb-5 pt-5 pt-sm-2 text-center">
+            <h5 style="color: #12f8ad;">ADMINISTRATION PORTAL</h5>
+            <h6 class="mb-0 pb-3"><span> For CSC Personnel, SSO Personnel, and Admin Users only. </span></h6>
+              <div class="card-3d-wrap mx-auto">
+                <div class="card-3d-wrapper">
+                  <div class="card-front">
+                    <div class="center-wrap">
+                      <form class="section text-center" #signInForm="ngForm" (ngSubmit)="signInForm.valid && onLogin(signInForm)">
+                        <h4 class="mb-4 pb-3">Log In</h4>
+                        <div class="form-group">
+                          <input type="email" name="email" #email="ngModel" [(ngModel)]="model.email"
+                            class="form-style"
+                            placeholder="Email"
+                            id="email"
+                            autocomplete="none">
+                          <i class="input-icon uil uil-at"></i>
+                        </div>
+                        <div class="form-group mt-2">
+                          <input type="password" name="password" #password="ngModel" [(ngModel)]="model.password"
+                            class="form-style"
+                            placeholder="Your Password"
+                            id="password" autocomplete="none">
+                          <i class="input-icon uil uil-lock-alt"></i>
+                        </div>
+                        <div class="buttons">
+                          <div class="single-button cancel">
+                            <button class="btn-cancel" (click)="resetLogInForm()" type="button">Cancel</button>
+                          </div>
+
+                          <div class="single-button submit">
+                            <button class="btn" type="submit" [disabled]="!signInForm.valid">Submit</button>
+                          </div>
+                        </div>
+
+                        <p class="mb-0 mt-4" style="color: #2a2b38;">
+                          Are you a Student? Log in on Student Portal <a class="link" routerLink="/login">HERE.</a> <br/>
+                          <i>Student Portal is for Students only.</i>
+                        </p>
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
