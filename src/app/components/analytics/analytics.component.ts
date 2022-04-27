@@ -33,7 +33,7 @@ export class AnalyticsComponent implements OnInit {
           }
         ]
       };
-    }, 3000);
+    }, 5000);
   }
 
   // get total number of complaints with status: resolved
