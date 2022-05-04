@@ -3,6 +3,14 @@
 <main>
   <div class="header">
     <h4> Manage Concerns </h4>
+    <div class="search-bar">
+      <i class="menu-icon uil uil-search"></i>
+      <input
+        type="text"
+        placeholder="Search Concerns..."
+        [(ngModel)]="filterTerm"
+      />
+    </div>
   </div>
 
   <div class="complaint-wrapper">
@@ -115,7 +123,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let complaint of complaintService.allComplaints">
+          <tr *ngFor="let complaint of complaintService.allComplaints | filter: filterTerm">
             <td>{{ complaint.complaint_header }}</td>
             <td>{{ complaint.complaint_body }}</td>
             <td *ngIf="complaint.complaint_status === 0">In queue</td>

@@ -122,6 +122,14 @@
   <div class="table-div">
     <div class="header">
       <h5> Concerns List </h5>
+      <div class="search-bar">
+        <i class="menu-icon uil uil-search"></i>
+        <input
+          type="text"
+          placeholder="Search Concerns..."
+          [(ngModel)]="filterConcerns"
+        />
+      </div>
     </div>
     <!-- complaits table -->
     <table class="responsive-table highlight" *ngIf="complaintService.allComplaints?.length !== 0">
@@ -138,7 +146,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let complaint of complaintService.allComplaints">
+        <tr *ngFor="let complaint of complaintService.allComplaints | filter: filterConcerns">
           <td *ngIf="complaint.complaint_status > 2">{{ complaint.complaint_header }}</td>
           <td *ngIf="complaint.complaint_status > 2">{{ complaint.complaint_body }}</td>
           <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status === 3">Pending SSO response</td>
@@ -159,6 +167,14 @@
 
     <div class="header">
       <h5> Resolutions Lists </h5>
+      <div class="search-bar">
+        <i class="menu-icon uil uil-search"></i>
+        <input
+          type="text"
+          placeholder="Search Resolution..."
+          [(ngModel)]="filterResolutions"
+        />
+      </div>
     </div>
 
     <!-- resolutions table -->
@@ -176,7 +192,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let resolution of resolutionService.allResolutions">
+        <tr *ngFor="let resolution of resolutionService.allResolutions | filter: filterResolutions">
           <td><button class="view-resolution-btn" (click)="viewResolution(resolution);viewSpecificComplaint(resolution.complaint_id)">View Concern</button></td>
           <td>{{ resolution.respondent_username }}</td>
           <td>{{ resolution.resolution_header }}</td>

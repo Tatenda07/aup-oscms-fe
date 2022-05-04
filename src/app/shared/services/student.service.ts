@@ -85,4 +85,10 @@ export class StudentService {
     var role = studentPayload.role;
     return role;
   }
+
+  studentId () {
+    var studentPayload = this.getStudentPayload();
+    var student_id = studentPayload.student_id;
+    return student_id;
+  }
 }

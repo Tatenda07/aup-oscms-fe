@@ -22,6 +22,8 @@ export class ResolutionComponent implements OnInit {
   specificResolution: any;
   specificComplaint: any;
   userProfile: any;
+  filterConcerns!: string;
+  filterResolutions!: string;
 
   constructor(
     public resolutionService: ResolutionService,

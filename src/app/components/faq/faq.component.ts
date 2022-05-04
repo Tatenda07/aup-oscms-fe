@@ -11,6 +11,7 @@ import { ResolutionService } from 'src/app/shared/services/resolution.service';
 export class FaqComponent implements OnInit {
   specificResolution: any;
   viewResolutionParagraph = false;
+  filterTerm!: string;
 
   constructor(
     public complaintService: ComplaintService,

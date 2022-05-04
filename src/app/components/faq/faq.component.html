@@ -4,8 +4,16 @@
   </div>
   <section>
     <div class="container">
+      <div class="search-bar">
+        <i class="menu-icon uil uil-search"></i>
+        <input
+          type="text"
+          placeholder="Search Concerns..."
+          [(ngModel)]="filterTerm"
+        />
+      </div>
       <div class="accordion">
-        <div *ngFor="let complaint of complaintService.allComplaints, let i = index">
+        <div *ngFor="let complaint of complaintService.allComplaints | filter: filterTerm, let i = index">
           <input type='radio' id="{{ i }}" (change)="true" name="faq_accordion" #checkBox class="accordion__input" (click)="closeResolutionParagraph()">
           <label for="{{ i }}" class="accordion__label" *ngIf="complaint.FAQ === 1">
             {{ complaint.complaint_header }}

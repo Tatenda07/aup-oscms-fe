@@ -69,11 +69,11 @@
 
     <div class="resolution" *ngIf="viewResolutionDiv">
       <h5>Resolution:</h5>
-      <h6>{{specificResolution.resolution_header}}</h6>
+      <h6>{{specificResolution?.resolution_header}}</h6>
       <p class="body-text">
-        {{specificResolution.resolution_body}} <br/>
-        <i class="body-datestamp">Resolution posted by {{specificResolution.respondent_username}} on {{specificResolution.createdAt | date:'medium'}}</i> <br/>
-        <i class="body-datestamp" *ngIf="specificResolution.updated_by !== undefined">Resolution updated by {{specificResolution.updated_by}} on {{specificResolution.updatedAt | date:'medium'}}</i>
+        {{specificResolution?.resolution_body}} <br/>
+        <i class="body-datestamp">Resolution posted by {{specificResolution?.respondent_username}} on {{specificResolution?.createdAt | date:'medium'}}</i> <br/>
+        <i class="body-datestamp" *ngIf="specificResolution?.updated_by !== undefined">Resolution updated by {{specificResolution?.updated_by}} on {{specificResolution?.updatedAt | date:'medium'}}</i>
       </p>
     </div>
 
@@ -98,11 +98,22 @@
       <b>College: </b> <i>College of {{ studentProfile?.college }}</i> <br/>
     </p>
     <h5>My Concerns</h5>
-    <h3 class="empty-list-text" *ngIf="complaintService.allComplaints?.length === 0">
-      You have no submitted concerns at the moment. If you have any concerns let us know <a routerLink="/submit-concern">here</a>
-    </h3>
+    <p class="submit-concern"> Got a new concern? Submit your new concern <a title="Submit Concern" routerLink="/submit-concern">here</a>.</p>
 
-    <table class="responsive-table highlight" *ngIf="complaintService.allComplaints?.length !== 0">
+    <!-- <h3 class="empty-list-text" *ngIf="complaintService.singleStudentComplaints?.length === 0">
+      You have no submitted concerns at the moment. If you have any concerns let us know <a routerLink="/submit-concern">here</a>
+    </h3> -->
+
+    <div class="search-bar">
+      <i class="menu-icon uil uil-search"></i>
+      <input
+        type="text"
+        placeholder="Search Concerns..."
+        [(ngModel)]="filterTerm"
+      />
+    </div>
+
+    <table class="responsive-table highlight">
       <thead>
         <tr>
           <th>Concern Header</th>
@@ -115,23 +126,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let complaint of complaintService.allComplaints">
-          <td *ngIf="complaint.student_id === studentProfile?.student_id">{{ complaint.complaint_header }}</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id">{{ complaint.complaint_body }}</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status === 0">In queue</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status === 1">Received by CSC personnel</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status === 2">Moderated by {{complaint.moderated_by}}</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status === 3">Pending SSO response</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status === 4">Resolved</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status <= 3">
+        <tr *ngFor="let complaint of complaintService.singleStudentComplaints | filter: filterTerm">
+          <td>{{ complaint.complaint_header }}</td>
+          <td>{{ complaint.complaint_body }}</td>
+          <td *ngIf="complaint.complaint_status === 0">In queue</td>
+          <td *ngIf="complaint.complaint_status === 1">Received by CSC personnel</td>
+          <td *ngIf="complaint.complaint_status === 2">Moderated by {{complaint.moderated_by}}</td>
+          <td *ngIf="complaint.complaint_status === 3">Pending SSO response</td>
+          <td *ngIf="complaint.complaint_status === 4">Resolved</td>
+          <td *ngIf="complaint.complaint_status <= 3">
             <button class="view-complaint-btn" (click)="viewComplaint(complaint); viewResolutionDiv = false">View Concern</button>
           </td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status === 4">
+          <td *ngIf="complaint.complaint_status === 4">
             <button class="view-resolution-btn" (click)="viewComplaint(complaint);viewResolution(complaint.resolution_id)">View Resolution</button>
           </td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id">{{ complaint.createdAt | date:'medium' }}</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id">{{ complaint.updatedAt | date:'medium' }}</td>
-          <td *ngIf="complaint.student_id === studentProfile?.student_id && complaint.complaint_status < 2">
+          <td>{{ complaint.createdAt | date:'medium' }}</td>
+          <td>{{ complaint.updatedAt | date:'medium' }}</td>
+          <td *ngIf="complaint.complaint_status < 2">
             <!-- edit button -->
             <a class="action-btn edit" title="Edit Concern">
               <i class="material-icons" (click)="onEditComplaint(complaint)">edit</i>

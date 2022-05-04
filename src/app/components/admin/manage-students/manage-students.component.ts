@@ -16,6 +16,7 @@ export class ManageStudentsComponent implements OnInit {
   students: any;
   studentDetails: any;
   serverErrorMessages!: string;
+  filterTerm!: string;
 
   constructor(
     private router: Router,

@@ -9,6 +9,34 @@
   padding: 20px;
 }
 
+.search-bar {
+  display: flex;
+  letter-spacing: 1px;
+  background: #2a2b38;
+  padding: 0px 10px;
+  border-radius: 5px;
+  margin: 0px 10px 10px 0px;
+}
+
+.search-bar i {
+  margin: auto 10px auto 0;
+  color: #12f8ad;
+  font-size: 20px;
+}
+
+.search-bar input {
+  color: #12f8ad;
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.search-bar input:focus {
+  border: none;
+  outline: none;
+}
+
 .accordion {
     max-width: 1100px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -80,4 +108,10 @@
 
   .view-resolution-button:hover {
     background: #0f7c66
+  }
+
+  @media only screen and (max-width: 1199px) {
+    .search-bar {
+      margin-right: 0;
+    }
   }

@@ -3,6 +3,14 @@
   <div class="header">
     <h4> Manage Users </h4>
     <button class="btn add-new-user" (click)="toggleDisplayDivIf()">Add New User</button>
+    <div class="search-bar">
+      <i class="menu-icon uil uil-search"></i>
+      <input
+        type="text"
+        placeholder="Search Users..."
+        [(ngModel)]="filterTerm"
+      />
+    </div>
   </div>
 
   <div class="user-wrapper">
@@ -111,7 +119,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of users">
+          <tr *ngFor="let user of users | filter: filterTerm">
             <td>{{ user.first_name }} {{ user.middle_initial }} {{ user.last_name }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>

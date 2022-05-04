@@ -18,8 +18,8 @@ export class ManageComplaintsComponent implements OnInit {
   viewComplaintResolution = false;
   viewResolutionDiv = false;
   specificResolution: any;
-  complaints: any;
   userProfile: any;
+  filterTerm!: string;
 
   constructor(
     public complaintService: ComplaintService,
@@ -35,12 +35,6 @@ export class ManageComplaintsComponent implements OnInit {
     this.userService.getUserProfile().subscribe((res: any) => {
       this.userProfile = res['userProfile']
     });
-  }
-
-  // get all complaints from the database
-  showComplaints() {
-    this.complaintService.getComplaint().subscribe((data: any) => this.complaints = data);
-    console.log(this.complaints);
   }
 
   // reset complaints form

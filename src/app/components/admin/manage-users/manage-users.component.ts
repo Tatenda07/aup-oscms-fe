@@ -16,6 +16,7 @@ export class ManageUsersComponent implements OnInit {
   users: any;
   userDetails: any;
   serverErrorMessages!: string;
+  filterTerm!: string;
 
   constructor(
     private router: Router,

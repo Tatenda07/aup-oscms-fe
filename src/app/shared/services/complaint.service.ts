@@ -28,7 +28,7 @@ export class ComplaintService {
   }
 
   //get all complaints from a specific student
-  getStudentComplaints(student_id: string) {
+  getStudentComplaints(student_id: any) {
     return this.http.get(this.baseURL + `/studentComplaints/${student_id}`);
   }
 

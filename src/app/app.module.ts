@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-//import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,8 +30,8 @@ import { AuthInterceptor, UserAuthInterceptor } from './auth/auth.interceptor';
 import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
-//import { ChartsModule } from 'ng2-charts';
-import { ChartModule } from 'primeng/chart'
+import { ChartModule } from 'primeng/chart';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -67,9 +66,8 @@ import { ChartModule } from 'primeng/chart'
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    //MDBBootstrapModule.forRoot(),
-    //ChartsModule,
-    ChartModule
+    ChartModule,
+    Ng2SearchPipeModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

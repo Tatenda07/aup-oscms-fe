@@ -19,9 +19,11 @@ export class ComplStatusComponent implements OnInit {
   viewResolutionDiv = false;
   viewComplaintDiv = false;
 
-  myComplaints: any;
-  studentProfile: any
+  studentComplaints: any;
+  studentProfile: any;
+  student_id = this.studentService.studentId();
   specificResolution: any;
+  filterTerm!: string;
 
   constructor(
     public complaintService: ComplaintService,
@@ -44,9 +46,11 @@ export class ComplStatusComponent implements OnInit {
       this.viewComplaintsForm = !this.viewComplaintsForm;
     }
 
-    // get all complaints from the database
-    showComplaints() {
-      this.complaintService.getComplaint().subscribe((data: any) => this.myComplaints = data);
+    // get all complaints from a specific student
+    showComplaints(student_id: any) {
+      this.complaintService.getStudentComplaints(student_id).subscribe((res) => {
+        this.complaintService.singleStudentComplaints = res as Complaint[];
+      });
     }
 
     // reset complaints form
@@ -87,10 +91,10 @@ export class ComplStatusComponent implements OnInit {
       this.viewComplaintsForm = true;
     }
 
-    // refresh complaints list
+    // refresh single student complaints list
     refreshComplaintsList() {
-      this.complaintService.getComplaint().subscribe((res) => {
-        this.complaintService.allComplaints = res as Complaint[];
+      this.complaintService.getStudentComplaints(this.student_id).subscribe((res) => {
+        this.complaintService.singleStudentComplaints = res as Complaint[];
       });
     }
 

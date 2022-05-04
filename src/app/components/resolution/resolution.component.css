@@ -6,3 +6,22 @@
   align-items: center;
   margin-top: 10px;
 }
+
+.search-bar {
+  display: flex;
+  letter-spacing: 1px;
+  background: #2a2b38;
+  padding: 0px 10px;
+  border-radius: 10px;
+  margin: 0px 10px 10px 10px;
+}
+
+.search-bar i {
+  margin: auto 10px auto 0;
+  color: #12f8ad;
+  font-size: 20px;
+}
+
+.search-bar input {
+  color: #12f8ad;
+}
