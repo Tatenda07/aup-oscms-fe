@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Platform } from '@angular/cdk/platform';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter, map } from 'rxjs/operators';
+import { FacebookService, InitParams } from 'ngx-facebook';
 
 @Component({
   selector: 'app-root',
@@ -24,13 +25,16 @@ export class AppComponent {
   displayMenu = true;
 
   constructor(public studentService: StudentService, public userService: UserService, private router: Router, private platform: Platform,
-    private swUpdate: SwUpdate) {
+    private swUpdate: SwUpdate, private facebookService: FacebookService) {
 
     this.isOnline = false;
     this.modalVersion = false;
     }
     public ngOnInit(): void {
       this.updateOnlineStatus();
+      this.initFacebookService();
+
+      
 
       window.addEventListener('online',  this.updateOnlineStatus.bind(this));
       window.addEventListener('offline', this.updateOnlineStatus.bind(this));
@@ -46,6 +50,11 @@ export class AppComponent {
       }
 
       this.loadModalPwa();
+    }
+
+    private initFacebookService(): void {
+      const initParams: InitParams = { xfbml:true, version:'v3.2'};
+      this.facebookService.init(initParams);
     }
 
     private updateOnlineStatus(): void {
