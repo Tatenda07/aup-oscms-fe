@@ -5,13 +5,17 @@
         <div class="col-12 text-center align-self-center py-5">
           <div class="section pb-5 pt-5 pt-sm-2 text-center">
           <h3 class="mb-0 pb-3">Submit Concern</h3>
-          <form #complaintForm="ngForm" (ngSubmit)="onSubmitComplaint(complaintForm)" autocomplete="off">
+          <form #complaintForm="ngForm" id="complaintForm" (keyup)="analyzeSentient()" (ngSubmit)="onSubmitComplaint(complaintForm)" autocomplete="off">
             <input type="hidden" id="student_name" name="student_name" #student_name="ngModel" [(ngModel)]="complaintService.selectedComplaint.student_name">
             <input type="hidden" id="student_id" name="student_id" #student_id="ngModel" [(ngModel)]="complaintService.selectedComplaint.student_id">
               <div class="card-3d-wrap mx-auto">
                 <div class="card-3d-wrapper">
                   <div class="card">
                     <div class="center-wrap">
+
+                      <!-- sentiment emoji div -->
+                      <div id="emojiSection" style="color: black;"></div>
+
                         <div class="form-group mt-2">
                           <input type="text" #complaint_header="ngModel" [(ngModel)]="complaintService.selectedComplaint.complaint_header" required
                             class="form-style"

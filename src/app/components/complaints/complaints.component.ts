@@ -51,6 +51,42 @@ export class ComplaintsComponent implements OnInit {
     }
   }
 
+  // Natural Language Processing and Sentiment Analysis
+  analyzeSentient() {
+    const submitReview = (e:Event) => {
+      e.preventDefault();
+      const review = (<HTMLInputElement>document.getElementById('complaint_body')).value;
+      const options = {
+        method: 'POST',
+        body: JSON.stringify({ review }),
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      }
+
+      const emojiSection = document.getElementById('emojiSection');
+
+      fetch('https://aup-oscms.herokuapp.com/api/nlp/s-analyzer', options) // local backend fetch url: http://localhost:5000/api/nlp/s-analyzer
+        .then(res => res.json())
+        .then (({ analysis }) => {
+          if (analysis < 0) {
+            emojiSection!.innerHTML = '<img src="../../../assets/images/sad.png" alt="sad" width="100" height="100" title="Sad">';
+          }
+          if (analysis === 0) {
+            emojiSection!.innerHTML = '<img src="../../../assets/images/neutral.png" alt="neutral" width="100" height="100" title="Neutral">';
+          }
+          if (analysis > 0) {
+            emojiSection!.innerHTML = '<img src="../../../assets/images/happy.png" alt="happy" width="100" height="100" title="Happy">';
+          }
+        })
+        .catch(err => {
+          emojiSection!.innerHTML = 'There was an error analyzing your sentiment!'
+        })
+    }
+
+    document.getElementById('complaint_body')!.addEventListener('keyup', submitReview);
+    document.getElementById('complaintForm')!.addEventListener('submit', submitReview);
+  }
+
+  // submit concern
   onSubmitComplaint(form : NgForm) {
     // automatically attach student name and id to the complaint
     form.value.student_name = this.studentProfile.first_name + ' ' + this.studentProfile.last_name;
