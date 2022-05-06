@@ -20,43 +20,12 @@
 <body>
   <app-root></app-root>
 
-  <!-- Messenger Chat Plugin Code -->
-  <div id="fb-root"></div>
-
-  <!-- Your Chat Plugin code -->
-  <div id="fb-customer-chat" class="fb-customerchat">
-  </div>
-
-  <script>
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "102013242512594");
-    chatbox.setAttribute("attribution", "biz_inbox");
-  </script>
-
-  <!-- Your SDK code -->
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        xfbml            : true,
-        version          : 'v13.0'
-      });
-    };
-
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-
   <script src="./assets/js/materialize.js"></script>
   <script src="node_modules/chart.js/src/chart.js"></script>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
-<script src="runtime.a414b3d4913551fc.js" type="module"></script><script src="polyfills.f8f04f7b671ffecb.js" type="module"></script><script src="scripts.65bd29956ac66592.js" defer></script><script src="main.e3606b02f4cc4607.js" type="module"></script>
+<script src="runtime.a414b3d4913551fc.js" type="module"></script><script src="polyfills.f8f04f7b671ffecb.js" type="module"></script><script src="scripts.65bd29956ac66592.js" defer></script><script src="main.cffd261af8c89c4f.js" type="module"></script>
 
 
 </body></html>
