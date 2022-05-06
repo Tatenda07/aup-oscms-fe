@@ -32,6 +32,8 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { ChartModule } from 'primeng/chart';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { FacebookModule } from 'ngx-facebook';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -51,14 +53,17 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     AdminLoginComponent,
     ErrorPageComponent,
     AnalyticsComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FacebookModule.forRoot(),
     ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
