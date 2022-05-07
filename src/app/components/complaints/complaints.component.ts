@@ -14,6 +14,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 export class ComplaintsComponent implements OnInit {
   complaints: any;
   studentProfile: any;
+  sentimentRating: any;
 
   constructor(
     public complaintService: ComplaintService,
@@ -67,15 +68,16 @@ export class ComplaintsComponent implements OnInit {
       fetch('https://aup-oscms.herokuapp.com/api/nlp/s-analyzer', options) // local backend fetch url: http://localhost:5000/api/nlp/s-analyzer
         .then(res => res.json())
         .then (({ analysis }) => {
-          if (analysis < 0) {
-            emojiSection!.innerHTML = '<img src="../../../assets/images/sad.png" alt="sad" width="100" height="100" title="Sad">';
-          }
-          if (analysis === 0) {
-            emojiSection!.innerHTML = '<img src="../../../assets/images/neutral.png" alt="neutral" width="100" height="100" title="Neutral">';
-          }
-          if (analysis > 0) {
-            emojiSection!.innerHTML = '<img src="../../../assets/images/happy.png" alt="happy" width="100" height="100" title="Happy">';
-          }
+          // if (analysis < 0) {
+          //   emojiSection!.innerHTML = '<img src="../../../assets/images/sad.png" alt="sad" width="100" height="100" title="Sad">';
+          // }
+          // if (analysis === 0) {
+          //   emojiSection!.innerHTML = '<img src="../../../assets/images/neutral.png" alt="neutral" width="100" height="100" title="Neutral">';
+          // }
+          // if (analysis > 0) {
+          //   emojiSection!.innerHTML = '<img src="../../../assets/images/happy.png" alt="happy" width="100" height="100" title="Happy">';
+          // }
+          this.sentimentRating = analysis;
         })
         .catch(err => {
           emojiSection!.innerHTML = 'There was an error analyzing your sentiment!'

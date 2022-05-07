@@ -71,6 +71,11 @@ p { font-weight: 500; font-size: 14px; line-height: 1.7; }
     z-index: 20;
     display: block;
 }
+
+#emojiSection {
+  min-height: 12vh;
+}
+
 .form-group{
     position: relative;
     display: block;
