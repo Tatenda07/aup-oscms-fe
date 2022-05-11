@@ -21,6 +21,22 @@
                       </div>
 
                         <div class="form-group mt-2">
+                          <select style="margin-bottom: 10px;" name="category" id="category" [(ngModel)]="complaintService.selectedComplaint.category" required>
+                            <option value="" disabled selected hidden>Select Concern Category</option>
+                            <option value="Cafeteria">Cafeteria</option>
+                            <option value="Dormitory">Dormitory</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="Communication">Communication</option>
+                            <option value="Recreational Activiies">Recreational Activiies</option>
+                            <option value="Off-Campus Request">Off-Campus Request</option>
+                            <option value="Student Parks">Student Parks</option>
+                            <option value="Work Education">Work Education</option>
+                            <option value="Student Convocation">Student Convocation</option>
+                            <option value="Infractions">Infractions</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                        <div class="form-group mt-2">
                           <input type="text" #complaint_header="ngModel" [(ngModel)]="complaintService.selectedComplaint.complaint_header" required
                             class="form-style"
                             placeholder="Concern Subject"

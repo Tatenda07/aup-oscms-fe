@@ -10,7 +10,11 @@
     <div class="complaint-display" *ngIf="resolutionService.selectedResolution._id === ''">
       <h5>Concern:</h5>
       <h6>{{complaintService.selectedComplaint.complaint_header}}</h6>
-      <p class="body-text">{{complaintService.selectedComplaint.complaint_body}}</p>
+      <p class="body-text">
+        {{complaintService.selectedComplaint.complaint_body}} <br/>
+        <i class="body-datestamp">Concern posted by {{complaintService.selectedComplaint.student_name}} on {{complaintService.selectedComplaint.createdAt | date:'medium'}}</i> <br/>
+        <i class="body-datestamp" *ngIf="complaintService.selectedComplaint.moderated_by !== undefined">Concern moderated by {{complaintService.selectedComplaint.moderated_by}} on {{complaintService.selectedComplaint.updatedAt | date:'medium'}}</i>
+      </p>
     </div>
 
     <div class="col s7 custom">
@@ -56,6 +60,9 @@
   <div class="view-complaint-and-resolution" *ngIf="viewComplaintResolution">
     <div class="complaint">
       <h5>Concern:</h5>
+      <p class="body-text">
+        Category: {{complaintService.selectedComplaint.category}}
+      </p>
       <h6>{{complaintService.selectedComplaint.complaint_header}}</h6>
       <p class="body-text">
         {{complaintService.selectedComplaint.complaint_body}} <br/>
@@ -89,6 +96,9 @@
   <div class="view-complaint-and-resolution" *ngIf="viewResolutionComplaint">
     <div class="complaint">
       <h5>Concern:</h5>
+      <p class="body-text">
+        Category: {{specificComplaint.category}}
+      </p>
       <h6>{{specificComplaint.complaint_header}}</h6>
       <p class="body-text">
         {{specificComplaint.complaint_body}} <br/>
@@ -137,6 +147,7 @@
         <tr>
           <th>Concern Header</th>
           <th>Concern</th>
+          <th>Category</th>
           <th>Status</th>
           <th>Student ID</th>
           <th>Student Name</th>
@@ -149,6 +160,7 @@
         <tr *ngFor="let complaint of complaintService.allComplaints | filter: filterConcerns">
           <td *ngIf="complaint.complaint_status > 2">{{ complaint.complaint_header }}</td>
           <td *ngIf="complaint.complaint_status > 2">{{ complaint.complaint_body }}</td>
+          <td *ngIf="complaint.complaint_status > 2">{{ complaint.category }}</td>
           <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status === 3">Pending SSO response</td>
           <td *ngIf="complaint.complaint_status > 2 && complaint.complaint_status === 4">Resolved</td>
           <td *ngIf="complaint.complaint_status > 2">{{ complaint.student_id }}</td>
@@ -214,5 +226,5 @@
       </tbody>
     </table>
   </div>
-</div> 
+</div>
 

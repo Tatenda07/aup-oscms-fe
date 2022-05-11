@@ -27,6 +27,26 @@
                 </div>
               </div>
 
+              <label class="display-label">Category</label>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select name="category" id="category" [(ngModel)]="complaintService.selectedComplaint.category" required>
+                      <option value="" disabled selected hidden>Select Concern Category</option>
+                      <option value="Cafeteria">Cafeteria</option>
+                      <option value="Dormitory">Dormitory</option>
+                      <option value="Apartment">Apartment</option>
+                      <option value="Communication">Communication</option>
+                      <option value="Recreational Activiies">Recreational Activiies</option>
+                      <option value="Off-Campus Request">Off-Campus Request</option>
+                      <option value="Student Parks">Student Parks</option>
+                      <option value="Work Education">Work Education</option>
+                      <option value="Student Convocation">Student Convocation</option>
+                      <option value="Infractions">Infractions</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
               <label class="display-label">Concern Header</label>
               <div class="row">
                 <div class="input-field col s12">
@@ -59,6 +79,9 @@
   <div class="view-complaint-and-resolution" *ngIf="viewComplaintResolution">
     <div class="complaint">
       <h5>Concern:</h5>
+      <p class="body-text">
+        Category: {{complaintService.selectedComplaint.category}}
+      </p>
       <h6>{{complaintService.selectedComplaint.complaint_header}}</h6>
       <p class="body-text">
         {{complaintService.selectedComplaint.complaint_body}} <br/>
@@ -118,6 +141,7 @@
         <tr>
           <th>Concern Header</th>
           <th>Concern</th>
+          <th>Category</th>
           <th>Status</th>
           <th>Resolution</th>
           <th>Posted On</th>
@@ -129,6 +153,7 @@
         <tr *ngFor="let complaint of complaintService.singleStudentComplaints | filter: filterTerm">
           <td>{{ complaint.complaint_header }}</td>
           <td>{{ complaint.complaint_body }}</td>
+          <td>{{ complaint.category }}</td>
           <td *ngIf="complaint.complaint_status === 0">In queue</td>
           <td *ngIf="complaint.complaint_status === 1">Received by CSC personnel</td>
           <td *ngIf="complaint.complaint_status === 2">Moderated by {{complaint.moderated_by}}</td>

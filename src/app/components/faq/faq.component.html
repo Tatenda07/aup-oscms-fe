@@ -19,6 +19,7 @@
             {{ complaint.complaint_header }}
           </label>
           <div class="accordion__content" *ngIf="checkBox.checked && complaint.FAQ === 1">
+            <p style="font-weight: 500; font-size: 13px;">Category: {{complaint.category}}</p>
             <p>
               Concern: <br/>
               {{ complaint.complaint_body }}

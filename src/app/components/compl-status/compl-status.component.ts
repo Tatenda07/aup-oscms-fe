@@ -63,6 +63,7 @@ export class ComplStatusComponent implements OnInit {
         student_name: "",
         complaint_header: "",
         complaint_body: "",
+        category: "",
         complaint_status: 0,
         moderated_by: undefined,
         resolution_id: "",
