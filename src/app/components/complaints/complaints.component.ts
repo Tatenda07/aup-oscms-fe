@@ -61,7 +61,7 @@ export class ComplaintsComponent implements OnInit {
          analyzes the concern sentence by sentence.
         (limitation: NLP and Sentiment Analysis is only applied if a period, question mark, or exclamation mark is added at the end of the sentence)
       */
-      if (event.code === 'Period' || event.keyCode === 191 && event.shiftKey || event.keyCode === 49 && event.shiftKey) {
+      if (event.code === 'Period' || event.key === '?' || event.key === '!') {
         event.preventDefault();
         const review = (<HTMLInputElement>document.getElementById('complaint_body')).value;
         const options = {
