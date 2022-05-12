@@ -55,38 +55,33 @@ export class ComplaintsComponent implements OnInit {
 
   // Natural Language Processing and Sentiment Analysis
   analyzeSentient() {
-    const submitReview = (e:Event) => {
-      e.preventDefault();
-      const review = (<HTMLInputElement>document.getElementById('complaint_body')).value;
-      const options = {
-        method: 'POST',
-        body: JSON.stringify({ review }),
-        headers: new Headers({ 'Content-Type': 'application/json' })
+    document.getElementById('complaint_body')!.addEventListener('keyup', event => {
+      /* The event only triggers when . (period) or ? (question mark) or ! (exclamation mark) is pressed.
+         In other words, the event is triggered at the end of every sentence, NLP and Sentiment Analysis
+         analyzes the concern sentence by sentence.
+        (limitation: NLP and Sentiment Analysis is only applied if a period, question mark, or exclamation mark is added at the end of the sentence)
+      */
+      if (event.code === 'Period' || event.keyCode === 191 && event.shiftKey || event.keyCode === 49 && event.shiftKey) {
+        event.preventDefault();
+        const review = (<HTMLInputElement>document.getElementById('complaint_body')).value;
+        const options = {
+          method: 'POST',
+          body: JSON.stringify({ review }),
+          headers: new Headers({ 'Content-Type': 'application/json' })
+        }
+
+        const emojiSection = document.getElementById('emojiSection');
+
+        fetch('https://aup-oscms.herokuapp.com/api/nlp/s-analyzer', options) // local backend fetch url: http://localhost:5000/api/nlp/s-analyzer
+          .then(res => res.json())
+          .then (({ analysis }) => {
+            this.sentimentRating = analysis;
+          })
+          .catch(err => {
+            emojiSection!.innerHTML = 'There was an error analyzing your sentiment!'
+          })
       }
-
-      const emojiSection = document.getElementById('emojiSection');
-
-      fetch('https://aup-oscms.herokuapp.com/api/nlp/s-analyzer', options) // local backend fetch url: http://localhost:5000/api/nlp/s-analyzer
-        .then(res => res.json())
-        .then (({ analysis }) => {
-          // if (analysis < 0) {
-          //   emojiSection!.innerHTML = '<img src="../../../assets/images/sad.png" alt="sad" width="100" height="100" title="Sad">';
-          // }
-          // if (analysis === 0) {
-          //   emojiSection!.innerHTML = '<img src="../../../assets/images/neutral.png" alt="neutral" width="100" height="100" title="Neutral">';
-          // }
-          // if (analysis > 0) {
-          //   emojiSection!.innerHTML = '<img src="../../../assets/images/happy.png" alt="happy" width="100" height="100" title="Happy">';
-          // }
-          this.sentimentRating = analysis;
-        })
-        .catch(err => {
-          emojiSection!.innerHTML = 'There was an error analyzing your sentiment!'
-        })
-    }
-
-    document.getElementById('complaint_body')!.addEventListener('keyup', submitReview);
-    document.getElementById('complaintForm')!.addEventListener('submit', submitReview);
+    })
   }
 
   // submit concern
@@ -114,5 +109,3 @@ export class ComplaintsComponent implements OnInit {
   }
 
 }
-
-
